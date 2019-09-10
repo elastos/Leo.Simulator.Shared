@@ -3,7 +3,7 @@ const _ = require('lodash');
 const events = require ('events');
 const autoBind = require ('auto-bind');
 
-modeule.exports = class BlockMgr{
+module.exports = class BlockMgr{
   constructor(ipfs, timeoutSeconds = 600000/* after 10 minutes, the block content will be removed to save memory. Cid will be left for future retrieve */){
     
     this._ipfs = ipfs;
