@@ -1,4 +1,4 @@
-import {o} from '../shared/utilities';
+import {o} from './utilities';
 import _ from 'lodash';
 import events from 'events';
 import autoBind from 'auto-bind';

@@ -1,6 +1,10 @@
-export { default as blockMgr } from "./blockMgr";
-export { default as computeTask } from "./computeTask";
-export { default as constValue } from "./constValue";
-export { default as remoteAttestation } from "./remoteAttestation";
-export { default as tryVrf } from "./tryVrf";
-export { default as utilities } from "./utilities";
+const blockMgr = require("./blockMgr");
+const computeTask = require ("./computeTask");
+const constValue = require ("./constValue");
+const remoteAttestation = require ("./remoteAttestation");
+const tryVrf = require ("./tryVrf");
+const utilities = require( "./utilities");
+
+module.exports = {
+  blockMgr, computeTask, constValue, remoteAttestation, tryVrf, utilities
+}
