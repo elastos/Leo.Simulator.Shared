@@ -5,7 +5,7 @@ const logger = name => (...args) => {
   console.log(`[${name}]\t`, ...args)
 }
 const log = logger('Sortition');
-exports.tryVrf = (req, res)=>{
+module.exports.tryVrf = (req, res)=>{
   const total = parseInt(req.query.total || '10'); //how many users will be in this comittee competition
   
   const output = testVrfSortition(total)
@@ -13,7 +13,7 @@ exports.tryVrf = (req, res)=>{
   res.send(output);
 }
 
-exports.testVrfSortition = (total)=>{
+module.exports.testVrfSortition = (total)=>{
   let output = "";
   const getAverangeResult = (f, total) =>{
     let sum = 0;

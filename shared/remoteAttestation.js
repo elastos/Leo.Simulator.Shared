@@ -34,15 +34,15 @@ const _verifyVrf = async (j, proof, value, blockCid, taskCid, publicKey, userNam
   return {result:true};
 };
 
-exports.validateRemoteAttestationVrf = async ({ipfs, j, proof, value, blockCid, taskCid, publicKey, userName})=>{
+module.exports.validateRemoteAttestationVrf = async ({ipfs, j, proof, value, blockCid, taskCid, publicKey, userName})=>{
   await _verifyVrf(j, proof, value, blockCid, taskCid, publicKey, userName, expectNumberOfRemoteAttestatorsToBeVoted);
 };
 
-exports.validateComputeTaskVrf = async ({ipfs, j, proof, value, blockCid, taskCid, publicKey, userName})=>{
+module.exports.validateComputeTaskVrf = async ({ipfs, j, proof, value, blockCid, taskCid, publicKey, userName})=>{
   await _verifyVrf(j, proof, value, blockCid, taskCid, publicKey, userName, expectNumberOfExecutorGroupToBeVoted);
 };
 
-exports.validatePot = (proofOfTrust)=>{
+module.exports.validatePot = (proofOfTrust)=>{
   const {psrData, isHacked, tpmPublicKey} = proofOfTrust;
 
   return ! isHacked;

@@ -1,13 +1,13 @@
 //import colors from 'colors';
 
-exports.exitGraceful = (exitCode = 0) => {
+module.exports.exitGraceful = (exitCode = 0) => {
 
   process.exitCode = exitCode;
 
 };
 
 
-exports.o = (type, ... messages) =>{
+module.exports.o = (type, ... messages) =>{
   try{
     console[type].apply(this, messages);
   }
@@ -20,7 +20,7 @@ exports.o = (type, ... messages) =>{
 
 
 
-exports.tryParseJson = (s)=>{
+module.exports.tryParseJson = (s)=>{
   try{
     return JSON.parse(s);
   }

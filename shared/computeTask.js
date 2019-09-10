@@ -2,14 +2,14 @@ const {minComputeGroupMembersToStartCompute, minBlockDelayRequiredBeforeComputeS
 const { o } = require( './utilities');
 
 
-exports.eligibilityCheck = (currentBlockHeight, task)=>{
+module.exports.eligibilityCheck = (currentBlockHeight, task)=>{
 
 
 
   return true
 }
 
-exports.executeCompute = async (taskCid)=>{
+module.exports.executeCompute = async (taskCid)=>{
   //this is just a place holder, in the real system, we should launch docker and run the command to get the result.
   //Now we just return hello world
   const computeTaskBuffer = {};//We use this buffer to store the params data from task owner, and code from lambda owner. then run execute task
@@ -159,7 +159,7 @@ const sendComputeExecutionDoneToMonitor = (taskCid)=>{
   };
   
 };
-exports.sendComputeTaskRaDone = (taskCid, raResult=true)=>{
+module.exports.sendComputeTaskRaDone = (taskCid, raResult=true)=>{
   const computeTaskRaDoneObj = {
     txType:'computeTaskRaDone',
     monitorUserName: global.userInfo.userName,
@@ -172,7 +172,7 @@ exports.sendComputeTaskRaDone = (taskCid, raResult=true)=>{
   o('log', 'computer ra task done. send out broadcast in taskRoom');
 }
 
-exports.computeTaskOwnerConfirmationDone = (taskCid, result = true)=>{
+module.exports.computeTaskOwnerConfirmationDone = (taskCid, result = true)=>{
   const computeTaskOwnerConfirmationDoneObj = {
     txType:'computeTaskOwnerConfirmationDone',
     taskOwnerName: global.userInfo.userName,
@@ -215,5 +215,5 @@ const executeComputeUsingEval = ({code, data})=>{
   const args = data;
   return eval(code);
 }
-exports.executeComputeUsingEval = executeComputeUsingEval;
+module.exports.executeComputeUsingEval = executeComputeUsingEval;
 
