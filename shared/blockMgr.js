@@ -1,7 +1,7 @@
-import {o} from './utilities';
-import _ from 'lodash';
-import events from 'events';
-import autoBind from 'auto-bind';
+const {o} = require('./utilities');
+const _ = require('lodash');
+const events = requrie ('events');
+const autoBind = require ('auto-bind');
 
 export default class BlockMgr{
   constructor(ipfs, timeoutSeconds = 600000/* after 10 minutes, the block content will be removed to save memory. Cid will be left for future retrieve */){

@@ -1,5 +1,5 @@
-import {minComputeGroupMembersToStartCompute, minBlockDelayRequiredBeforeComputeStart, maxBlockDelayRequiredBeforeComputeStart} from './constValue';
-import { o } from './utilities';
+const {minComputeGroupMembersToStartCompute, minBlockDelayRequiredBeforeComputeStart, maxBlockDelayRequiredBeforeComputeStart} = require( './constValue');
+const { o } = require( './utilities');
 
 
 exports.eligibilityCheck = (currentBlockHeight, task)=>{

@@ -1,9 +1,9 @@
 
-import {minimalNewNodeJoinRaDeposit, expectNumberOfRemoteAttestatorsToBeVoted, expectNumberOfExecutorGroupToBeVoted} from './constValue';
+const {minimalNewNodeJoinRaDeposit, expectNumberOfRemoteAttestatorsToBeVoted, expectNumberOfExecutorGroupToBeVoted} = require( './constValue');
 
-import {sha256} from 'js-sha256';
-import { ecvrf, sortition} from 'vrf.js';
-import Big from 'big.js';
+const {sha256} = require( 'js-sha256');
+const { ecvrf, sortition} = require( 'vrf.js');
+const Big = require( 'big.js');
 
 const _verifyVrf = async (j, proof, value, blockCid, taskCid, publicKey, userName, numberOfCommitee)=>{
   if(!j || !proof || !value || !blockCid || !taskCid || !publicKey || !numberOfCommitee){
