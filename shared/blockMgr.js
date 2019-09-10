@@ -1,6 +1,6 @@
 const {o} = require('./utilities');
 const _ = require('lodash');
-const events = requrie ('events');
+const events = require ('events');
 const autoBind = require ('auto-bind');
 
 modeule.exports = class BlockMgr{
