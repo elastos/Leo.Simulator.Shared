@@ -4,7 +4,7 @@
   "description": "shared components for Leo.simulator",
   "main": "./shared/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 15000 --exit --require @babel/register --require reify"
   },
   "repository": {
     "type": "git",
