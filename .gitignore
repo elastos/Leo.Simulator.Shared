@@ -76,4 +76,6 @@ sitemap.xml.gz*~
 ####################
 
 node_modules
+.reify-cache/
+docker/test.js
 
