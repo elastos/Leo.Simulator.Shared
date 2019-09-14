@@ -44,7 +44,7 @@ module.exports = class {
   }
 
   saveToImageFromBase64(name, base64){
-    const buf = new Buffer(base64, 'base64');
+    const buf = Buffer.from(base64, 'base64');
     fs.writeFileSync(this.getPath()+'/'+name, buf);
     return true;
   }
