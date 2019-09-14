@@ -7,15 +7,25 @@ module.exports = class {
 
   buildFuncString({code, type}){
     if(type === 'test') return code;
-
     if(type === 'func') return code;
+
+    if(type === 'number_plus'){
+      
+    }
+
     return '';
   }
 
+  getPath(){
+    return process.cwd()+'/docker';
+  }
+
   writeToFile(str){
-    fs.writeFileSync(process.cwd()+'/docker/test.js', str, {
+    fs.writeFileSync(this.getPath()+'/test.js', str, {
       encoding: 'utf8'
     });
+
+    this.saveToImageFromBase64('test.jpg', str);
 
     return true;
   }
@@ -28,14 +38,20 @@ module.exports = class {
 
     const rs = cmd.stdout.toString().split('\n');
     const rs_str = rs[1].split('|')[1].replace(/ /, '').replace('\u001b[0m', '').toString();
-    const result = JSON.parse(rs_str);
+    const result = this.saveToImageFromBase64('result.jpg', rs_str);
 
     return result;
   }
 
-  run(code){
-    const func = this.buildFuncString(code);
-    this.writeToFile(func);
+  saveToImageFromBase64(name, base64){
+    const buf = new Buffer(base64, 'base64');
+    fs.writeFileSync(this.getPath()+'/'+name, buf);
+    return true;
+  }
+
+  run(img){
+    // const func = this.buildFuncString(code);
+    this.writeToFile(img);
     return this.executeFunc();
   }
 };

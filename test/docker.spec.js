@@ -2,19 +2,8 @@ import {describe, it, before} from 'mocha';
 
 import { expect, should } from 'chai';
 
-const code = `
-function main(){
-  var r = 0;
-  for(var i=0, len=arguments.length; i<len; i++){
-    r += parseFloat(arguments[i])
-  }
-  return r;
-}
+import {fake_img} from './fake';
 
-const result = main(11,22,33);
-
-console.log(JSON.stringify(result));
-`;
 
 import Docker from '../docker';
 describe('docker folder', ()=>{
@@ -31,12 +20,9 @@ describe('docker folder', ()=>{
 
   it('run', ()=>{
     const d = new Docker();
-    const rs = d.run({
-      type : 'func',
-      code : code
-    });
+    const rs = d.run(fake_img);
 
-    expect(rs).to.eql(66);
+    expect(rs).to.eql(true);
   });
 });
 
