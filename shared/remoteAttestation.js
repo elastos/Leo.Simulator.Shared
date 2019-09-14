@@ -34,11 +34,17 @@ const _verifyVrf = async (j, proof, value, blockCid, taskCid, publicKey, userNam
   return {result:true};
 };
 
-module.exports.validateRemoteAttestationVrf = async ({ipfs, j, proof, value, blockCid, taskCid, publicKey, userName})=>{
-  await _verifyVrf(j, proof, value, blockCid, taskCid, publicKey, userName, expectNumberOfRemoteAttestatorsToBeVoted);
+module.exports.validateRemoteAttestationVrf = ({j, proof, value, blockCid, taskCid, publicKey, userName})=>{
+  try{
+    return _verifyVrf(j, proof, value, blockCid, taskCid, publicKey, userName, expectNumberOfRemoteAttestatorsToBeVoted);
+  }
+  catch(e){
+    return {result: false, reason:`_verifyVrf has exception:`, e};
+  }
+  
 };
 
-module.exports.validateComputeTaskVrf = async ({ipfs, j, proof, value, blockCid, taskCid, publicKey, userName})=>{
+module.exports.validateComputeTaskVrf = async ({j, proof, value, blockCid, taskCid, publicKey, userName})=>{
   await _verifyVrf(j, proof, value, blockCid, taskCid, publicKey, userName, expectNumberOfExecutorGroupToBeVoted);
 };
 
