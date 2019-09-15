@@ -20,9 +20,12 @@ describe('docker folder', ()=>{
 
   it('run', ()=>{
     const d = new Docker();
-    const rs = d.run(fake_img);
+    const rs = d.run({
+      type : 'image',
+      code : fake_img
+    });
 
-    expect(rs).to.eql(true);
+    expect(rs).not.to.eql(true);
   });
 });
 

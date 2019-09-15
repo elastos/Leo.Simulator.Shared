@@ -7,11 +7,8 @@ module.exports = class {
 
   buildFuncString({code, type}){
     if(type === 'test') return code;
-    if(type === 'func') return code;
+    if(type === 'image') return code;
 
-    if(type === 'number_plus'){
-      
-    }
 
     return '';
   }
@@ -38,9 +35,9 @@ module.exports = class {
 
     const rs = cmd.stdout.toString().split('\n');
     const rs_str = rs[1].split('|')[1].replace(/ /, '').replace('\u001b[0m', '').toString();
-    const result = this.saveToImageFromBase64('result.jpg', rs_str);
+    this.saveToImageFromBase64('result.jpg', rs_str);
 
-    return result;
+    return rs_str;
   }
 
   saveToImageFromBase64(name, base64){
@@ -49,8 +46,8 @@ module.exports = class {
     return true;
   }
 
-  run(img){
-    // const func = this.buildFuncString(code);
+  run(code){
+    const img = this.buildFuncString(code);
     this.writeToFile(img);
     return this.executeFunc();
   }
