@@ -2,8 +2,8 @@ version: '3'
 services:
   computer-leo:
     container_name: leo
-    image: computer-leo
-    build: .
+    image: liyangwood/computer-leo:0.0.1
     volumes:
-      - ./test.js:/leo/test.js
-    command: node /leo/test.js
+      # - ./python/run.py:/LEO/run1.py
+      - ./test.jpg:/LEO/test.jpg
+    command: python run.py

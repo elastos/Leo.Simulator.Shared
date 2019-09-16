@@ -78,4 +78,6 @@ sitemap.xml.gz*~
 node_modules
 .reify-cache/
 docker/test.js
+docker/test.jpg
+docker/result.jpg
 
