@@ -14,13 +14,14 @@ module.exports = class {
   }
 
   getPath(){
-    return process.cwd()+'/docker';
+    // return process.cwd()+'/docker';
+    return __dirname;
   }
 
   writeToFile(str){
-    fs.writeFileSync(this.getPath()+'/test.js', str, {
-      encoding: 'utf8'
-    });
+    // fs.writeFileSync(this.getPath()+'/test.js', str, {
+    //   encoding: 'utf8'
+    // });
 
     this.saveToImageFromBase64('test.jpg', str);
 

@@ -1,5 +1,6 @@
 const {minComputeGroupMembersToStartCompute, minBlockDelayRequiredBeforeComputeStart, maxBlockDelayRequiredBeforeComputeStart} = require( './constValue');
 const { o } = require( './utilities');
+const Docker = require('../docker');
 
 
 module.exports.eligibilityCheck = (currentBlockHeight, task)=>{
@@ -31,7 +32,7 @@ module.exports.executeCompute = async (taskCid)=>{
     taskCid,
     blockHeight:global.blockMgr.getLatestBlockHeight()
   };
-  const reqTaskParamsResponseHandler = (res, err)=>{
+  const reqTaskParamsResponseHandler = async (res, err)=>{
     if(err){
       o('error', `I have got the task data from task owner but it is an error, ` +  err);
       return;
@@ -49,7 +50,7 @@ module.exports.executeCompute = async (taskCid)=>{
     }
 
     computeTaskBuffer[taskCid].data = data;
-    const result = executeIfParamsAreReady(computeTaskBuffer, taskCid);
+    const result = await executeIfParamsAreReady(computeTaskBuffer, taskCid);
     if(result){
       sendComputeResultBackToTaskOwner(taskCid, result);
       sendComputeExecutionDoneToMonitor(taskCid);
@@ -66,7 +67,7 @@ module.exports.executeCompute = async (taskCid)=>{
    
   console.log(`Sending request for task data to taskOwner: PeerId:${taskOwnerPeerId}`, reqTaskParams)
   
-  const reqLambdaParamsHandler = (res, err)=>{
+  const reqLambdaParamsHandler = async (res, err)=>{
     if(err){
       o('error',  `I have got the task lambda from task owner but it is an error, ` +  err);
       return;
@@ -84,7 +85,7 @@ module.exports.executeCompute = async (taskCid)=>{
 
     computeTaskBuffer[taskCid].code = code;
     console.log('computeTaskBuffer', computeTaskBuffer);
-    const result = executeIfParamsAreReady(computeTaskBuffer, taskCid);
+    const result = await executeIfParamsAreReady(computeTaskBuffer, taskCid);
     if(result){
       sendComputeResultBackToTaskOwner(taskCid, result);
       sendComputeExecutionDoneToMonitor(taskCid);
@@ -100,10 +101,12 @@ module.exports.executeCompute = async (taskCid)=>{
   console.log(`Sending request for lambda function code to lambda Owner PeerId:${lambdaOwnerPeerId}`, reqLambdaParams);
 }
 
-const executeIfParamsAreReady = (computeTaskBuffer, taskCid)=>{
+const executeIfParamsAreReady = async (computeTaskBuffer, taskCid)=>{
   if(computeTaskBuffer[taskCid].code && computeTaskBuffer[taskCid].data){
+
+    computeTaskBuffer[taskCid].taskCid = taskCid;
     console.log(`Executor has got both data and code, it can start execution`, computeTaskBuffer[taskCid])
-    const result = executeComputeUsingEval(computeTaskBuffer[taskCid]);
+    const result = await executeComputeUsingEval(computeTaskBuffer[taskCid]);
     delete computeTaskBuffer[taskCid];
     console.log( `Execution result:`, result);
     return result;
@@ -211,9 +214,31 @@ const sendComputeTaskExecutionDone = (taskCid)=>{
 // }
 // exports.chooseExecutorAndMonitors = chooseExecutorAndMonitors;
 
-const executeComputeUsingEval = ({code, data})=>{
+const executeComputeUsingEval = async ({code, data, taskCid})=>{
   const args = data;
+  const r = await getLambdaValueFromTaskCid(taskCid);
+  if(r){
+    return r;
+  }
+  
   return eval(code);
 }
 module.exports.executeComputeUsingEval = executeComputeUsingEval;
+
+const getLambdaValueFromTaskCid = async (taskCid)=>{
+  const r1 = (await ipfs.dag.get(taskCid)).value;
+  const d = (await ipfs.dag.get(r1.lambdaCid)).value;
+
+  if(d.dockerImg === 'image'){
+    const docker = new Docker();
+    const rs = docker.run({
+      type : 'image',
+      code : d.code
+    });
+
+    return rs;
+  }
+
+  return false;
+}
 
